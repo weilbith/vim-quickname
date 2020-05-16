@@ -1,0 +1,102 @@
+*quickname.txt*			     Save and reload quickfix lists with names
+
+Version:  0.1
+Author:   Thore Weilbier <thore@weilbier.net>
+License:  MIT
+
+==============================================================================
+						 *quickname_table_of_contents*
+TABLE OF CONTENTS~
+
+Introduction ........................................ |quickname_introduction|
+Usage ...................................................... |quickname_usage|
+Commands ............................................... |quickname_functions|
+Variables .............................................. |quickname_functions|
+
+
+==============================================================================
+						      *quickname_introduction*
+INTRODUCTION~
+
+This plugin provides the feature to save the current quickfix list with a name
+and make it thereby easily recoverable. Instead of traversing through the old
+lists with |:colder| and |:cnewer|, you can give the list a name. Later you
+can select a specific one from all the saved lists.
+
+
+==============================================================================
+							     *quickname_usage*
+USAGE~
+
+If you have a quickfix list (open), you save it with |:QuicknameSave|. You can
+either provide it with a name for the list as first argument or get requested
+to enter the name else. When a list has been saved, it is possible to recover
+this list by the name with |:QuicknameLoad|. Again you can provide the name
+directly or choose from the list of all available once. When you feel like the
+list gets too long and you want to delete some old lists, simply use
+|:QuicknameRemove|.
+
+The list to select from provides the name, the number of included entries and
+a marker for the currently open list.
+
+If you attempt to save a list and the chosen name does already exist, the
+plugin requires to confirm the overwrite action.
+
+Quickfix lists loaded from the cache can be marked as such. There the variable
+|g:quickname_current_list| holds the name of the loaded list and can be
+integrated into the status line for example. Furthermore gets a reloaded list
+marked with special highlighting. Checkout |g:quickname_winhighlight| how to
+adjust or disable that feature.
+
+
+==============================================================================
+							  *quickname_commands*
+COMMANDS~
+
+							      *:QuicknameSave*
+
+|:QuicknameSave [{name}]|
+
+  Saves the current list to the cache and make it available to become
+  reloaded easily. If the {name} parameter gets omitted, a prompt will ask for
+  the name to apply. If the {name} does already exist, the user must confirm
+  to overwrite the old list.
+
+
+							      *:QuicknameLoad*
+|:QuicknameLoad [{name}]|
+
+  Attempt to load a stored list with {name} from the cache. If the {name}
+  parameter get omitted, a choice list is viewed to select from. Fails if no
+  list with such name does exist in the cache.
+
+
+							     *:QuicknameRemove*
+|:QuicknameRemove [{name}]|
+
+  Attempt to remove a stored list with {name} from the cache. If the {name}
+  parameter is omitted, a choice list is viewed to select from. Fails if no
+  list with such name does exist in the cache.
+
+
+==============================================================================
+							 *quickname_variables*
+VARIABLES~
+
+*g:quickname_current_list*				   string (default ``)
+
+  Not a configuration option, but include the name of the last reloaded list.
+  Is empty for regular/new lists or if nonce exist. Useful to integrate into
+  the statusline of the quickfix window.
+
+
+*g:quickname_winhighlight*		    string (default `QuicknameNormal`)
+
+  The value for the |'winhighlight'| option for the quickfix window when an
+  old list gets loaded. The value is a |highlight-group| that gets mapped to
+  `Normal`. Per default this is the custom `QuicknameNormal` group. Can be set
+  to an empty string to disable feature.
+
+
+==============================================================================
+vim:tw=78:ts=8:noet:ft=help:norl:
